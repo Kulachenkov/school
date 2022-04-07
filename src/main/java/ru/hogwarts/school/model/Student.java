@@ -3,7 +3,7 @@ package ru.hogwarts.school.model;
 import javax.persistence.*;
 import java.util.Objects;
 
-@Entity(name = "student")
+@Entity
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -11,6 +11,10 @@ public class Student {
 
     private String name;
     private int age;
+
+    @ManyToOne
+    @JoinColumn(name="faculty_id")
+    private Faculty faculty;
 
     public Long getId() {
         return id;
