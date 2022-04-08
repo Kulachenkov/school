@@ -12,6 +12,7 @@ import ru.hogwarts.school.service.FacultyService;
 @RequestMapping("faculty") // http://localhost:8080/faculty
 public class FacultyController {
 
+
     private final FacultyService facultyService;
 
     public FacultyController(FacultyService facultyService) {
