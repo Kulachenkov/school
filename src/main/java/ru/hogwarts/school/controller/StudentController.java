@@ -50,9 +50,9 @@ public class StudentController {
 
     @GetMapping ("filter/")// GET
     public ResponseEntity<Collection<Student>> getStudentsByAge(@RequestParam (required = false) Integer age,
-                                                       @RequestParam (required = false) Integer min,
-                                                       @RequestParam (required = false) Integer max,
-                                                       @RequestParam (required = false) String facultyName) {
+                                                                @RequestParam (required = false) Integer min,
+                                                                @RequestParam (required = false) Integer max,
+                                                                @RequestParam (required = false) String facultyName) {
         if (min != null && max != null && min <= max) {
             return ResponseEntity.ok(studentService.findStudentsByAgeBetween(min, max));
         }
