@@ -41,8 +41,8 @@ public class FacultyService {
         return facultyRepository.findAllBy();
     }
 
-    public Collection<Faculty> findFacultyByStudents(String studentName) {
-        return facultyRepository.findFacultyByName(facultyRepository.findFacultyNameIgnoreCase(studentName));
+    public Collection<Faculty> findFacultyByStudents(long id) {
+        return facultyRepository.findFacultyByStudentId(facultyRepository.findFacultyNameIgnoreCase(id));
     }
 
 }

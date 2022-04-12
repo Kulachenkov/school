@@ -43,7 +43,7 @@ public class FacultyController {
     }
 
     @DeleteMapping("{id}") // DELETE
-    public ResponseEntity deleteFaculty(@PathVariable long id) {
+    public ResponseEntity<Void> deleteFaculty(@PathVariable long id) {
         facultyService.deleteFaculty(id);
         return ResponseEntity.ok().build();
     }
@@ -51,12 +51,12 @@ public class FacultyController {
     @GetMapping("filters/") // GET
     public ResponseEntity<Collection<Faculty>> getFacultyByColorOrName(@RequestParam(required = false) String color,
                                                                        @RequestParam(required = false) String name,
-                                                                       @RequestParam(required = false) String studentName) {
+                                                                       @RequestParam(required = false) long id) {
         if ((color != null && !color.isBlank()) || (name!=null && !name.isBlank())) {
             return ResponseEntity.ok(facultyService.findFacultiesByNameIgnoreCaseOrColorIgnoreCase(name, color));
         }
-        if (studentName != null && !studentName.isBlank()) {
-            return ResponseEntity.ok(facultyService.findFacultyByStudents(studentName));
+        if (id != 0) {
+            return ResponseEntity.ok(facultyService.findFacultyByStudents(id));
         }
         return ResponseEntity.ok(facultyService.getAllFaculties());
     }
