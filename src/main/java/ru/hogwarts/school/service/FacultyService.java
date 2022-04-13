@@ -6,7 +6,6 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.repository.FacultyRepository;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 @Service
 public class FacultyService {
@@ -34,9 +33,16 @@ public class FacultyService {
         facultyRepository.deleteById(id);
     }
 
-    public Collection<Faculty> getFacultiesByColor(String color) {
-        return facultyRepository.findAll().stream()
-                .filter(f -> f.getColor().equals(color))
-                .collect(Collectors.toList());
+    public Collection<Faculty> findFacultiesByNameIgnoreCaseOrColorIgnoreCase(String name, String color) {
+        return facultyRepository.findFacultiesByNameIgnoreCaseOrColorIgnoreCase(name, color);
     }
+
+    public Collection<Faculty> getAllFaculties() {
+        return facultyRepository.findAllBy();
+    }
+
+    public Collection<Faculty> findFacultyByStudents(long id) {
+        return facultyRepository.findFacultyByStudentId(facultyRepository.findFacultyNameIgnoreCase(id));
+    }
+
 }

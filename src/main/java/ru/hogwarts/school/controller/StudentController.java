@@ -8,6 +8,7 @@ import ru.hogwarts.school.service.StudentService;
 
 import java.util.Collection;
 
+
 @RestController
 @RequestMapping("student") // http://localhost:8080/student
 public class StudentController {
@@ -42,13 +43,26 @@ public class StudentController {
     }
 
     @DeleteMapping("{id}") // DELETE
-    public ResponseEntity deleteStudent(@PathVariable long id) {
+    public ResponseEntity<Void> deleteStudent(@PathVariable long id) {
         studentService.deleteStudent(id);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping ("filter/{age}")// GET
-    public Collection<Student> getStudentsByAge(@PathVariable int age) {
-        return studentService.getStudentsByAge(age);
+    @GetMapping ("filter/")// GET
+    public ResponseEntity<Collection<Student>> getStudentsByAge(@RequestParam (required = false) Integer age,
+                                                                @RequestParam (required = false) Integer min,
+                                                                @RequestParam (required = false) Integer max,
+                                                                @RequestParam (required = false) String facultyName) {
+        if (min != null && max != null && min <= max) {
+            return ResponseEntity.ok(studentService.findStudentsByAgeBetween(min, max));
+        }
+        if (age != null) {
+            return ResponseEntity.ok(studentService.getStudentsByAge(age));
+        }
+        if (facultyName != null && !facultyName.isBlank()) {
+            return ResponseEntity.ok(studentService.findStudentsByFaculty(facultyName));
+        }
+        return ResponseEntity.ok(studentService.getAllStudents());
     }
+
 }

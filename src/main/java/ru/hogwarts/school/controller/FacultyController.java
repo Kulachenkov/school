@@ -8,6 +8,7 @@ import ru.hogwarts.school.service.FacultyService;
 
 import java.util.Collection;
 
+
 @RestController
 @RequestMapping("faculty") // http://localhost:8080/faculty
 public class FacultyController {
@@ -42,13 +43,22 @@ public class FacultyController {
     }
 
     @DeleteMapping("{id}") // DELETE
-    public ResponseEntity deleteFaculty(@PathVariable long id) {
+    public ResponseEntity<Void> deleteFaculty(@PathVariable long id) {
         facultyService.deleteFaculty(id);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("filter/{color}") // GET
-    public ResponseEntity<Collection<Faculty>> getFacultyByColor(@PathVariable String color) {
-        return ResponseEntity.ok(facultyService.getFacultiesByColor(color));
+    @GetMapping("filters/") // GET
+    public ResponseEntity<Collection<Faculty>> getFacultyByColorOrName(@RequestParam(required = false) String color,
+                                                                       @RequestParam(required = false) String name,
+                                                                       @RequestParam(required = false) long id) {
+        if ((color != null && !color.isBlank()) || (name!=null && !name.isBlank())) {
+            return ResponseEntity.ok(facultyService.findFacultiesByNameIgnoreCaseOrColorIgnoreCase(name, color));
+        }
+        if (id != 0) {
+            return ResponseEntity.ok(facultyService.findFacultyByStudents(id));
+        }
+        return ResponseEntity.ok(facultyService.getAllFaculties());
     }
-}
+
+ }
