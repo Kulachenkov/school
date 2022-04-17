@@ -15,6 +15,6 @@ public interface FacultyRepository extends JpaRepository<Faculty, Long> {
     @Query(nativeQuery = true, value = "select faculty.name from student, faculty where student.faculty_id = faculty.id and student.id=:id")
     String findFacultyNameIgnoreCase(long id);
 
-    Collection<Faculty> findFacultyByStudentId(String facultyName);
+    Collection<Faculty> findFacultyByName(String facultyName);
 
 }
