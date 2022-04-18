@@ -7,6 +7,7 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.service.FacultyService;
 
 import java.util.Collection;
+import java.util.Set;
 
 
 @RestController
@@ -29,8 +30,8 @@ public class FacultyController {
     }
 
     @PostMapping // POST
-    public Faculty createFaculty(@RequestBody Faculty faculty) {
-        return facultyService.createFaculty(faculty);
+    public ResponseEntity<Faculty> createFaculty(@RequestBody Faculty faculty) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(facultyService.createFaculty(faculty));
     }
 
     @PutMapping // PUT
@@ -42,19 +43,26 @@ public class FacultyController {
         return ResponseEntity.ok(foundStudent);
     }
 
-    @DeleteMapping("{id}") // DELETE
-    public ResponseEntity<Void> deleteFaculty(@PathVariable long id) {
-        facultyService.deleteFaculty(id);
-        return ResponseEntity.ok().build();
+    @DeleteMapping("/{id}") // DELETE
+    public ResponseEntity<Faculty> deleteFaculty(@PathVariable Long id) {
+        Faculty deletedFaculty = facultyService.deleteFaculty(id);
+        if (deletedFaculty == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(deletedFaculty);
+        }
     }
 
+
+    @GetMapping // GET
+    public Set<Faculty> getFacultyByColorOrName(@RequestParam(required = false) String color,
+                                                @RequestParam(required = false) String name) {
+        return facultyService.findFacultiesByNameIgnoreCaseOrColorIgnoreCase(name, color);
+    }
+
+
     @GetMapping("filters/") // GET
-    public ResponseEntity<Collection<Faculty>> getFacultyByColorOrName(@RequestParam(required = false) String color,
-                                                                       @RequestParam(required = false) String name,
-                                                                       @RequestParam(required = false) long id) {
-        if ((color != null && !color.isBlank()) || (name!=null && !name.isBlank())) {
-            return ResponseEntity.ok(facultyService.findFacultiesByNameIgnoreCaseOrColorIgnoreCase(name, color));
-        }
+    public ResponseEntity<Collection<Faculty>> getFacultyByColorOrName(@RequestParam(required = false) long id) {
         if (id != 0) {
             return ResponseEntity.ok(facultyService.findFacultyByStudents(id));
         }
