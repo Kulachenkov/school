@@ -39,7 +39,6 @@ public class FacultyControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-
     @Test
     public void getFacultyTest() throws Exception {
 

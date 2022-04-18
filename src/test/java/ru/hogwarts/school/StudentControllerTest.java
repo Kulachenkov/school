@@ -86,8 +86,4 @@ public class StudentControllerTest {
         Assertions.assertThat(response.getBody().getId()).isNotNull();
     }
 
-
-
-
-
 }
