@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 @RestController
 @RequestMapping("avatar")
@@ -32,6 +33,12 @@ public class AvatarController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("list-of-avatars")
+    public ResponseEntity<List<Avatar>> getAllAvatars(@RequestParam Integer page,
+                                                         @RequestParam Integer size) {
+        List<Avatar> avatarList = avatarService.getAllAvatars(page,size);
+        return ResponseEntity.ok(avatarList);
+    }
 
     @GetMapping(value = "/{id}/avatar-from-db")
     public ResponseEntity<byte[]> downloadAvatar(@PathVariable Long id) {

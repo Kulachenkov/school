@@ -49,4 +49,16 @@ public class StudentService {
     public Collection<Student> findStudentsByFaculty(String name) {
         return studentRepository.findStudentsByFacultyNameIgnoreCase(name);
     }
+
+    public int getNumberOfStudents() {
+        return studentRepository.getNumberOfStudents();
+    }
+
+    public int getAverageAgeOfStudents() {
+        return studentRepository.getAverageAgeOfStudents();
+    }
+
+    public List<Student> getLastFiveStudents() {
+        return studentRepository.getLastFiveStudents();
+    }
 }
