@@ -9,3 +9,4 @@ alter table faculty add constraint unique_pair unique (name, color);
 alter table student alter column age set default 20;
 
 
+
