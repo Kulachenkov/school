@@ -34,10 +34,10 @@ public class AvatarController {
     }
 
     @GetMapping("list-of-avatars")
-    public ResponseEntity<List<Avatar>> getAllAvatars(@RequestParam Integer page,
-                                                         @RequestParam Integer size) {
+    public List<Avatar> getAllAvatars(@RequestParam Integer page,
+                                      @RequestParam Integer size) {
         List<Avatar> avatarList = avatarService.getAllAvatars(page,size);
-        return ResponseEntity.ok(avatarList);
+        return avatarList;
     }
 
     @GetMapping(value = "/{id}/avatar-from-db")

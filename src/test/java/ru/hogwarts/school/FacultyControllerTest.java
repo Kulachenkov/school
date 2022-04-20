@@ -145,7 +145,7 @@ public class FacultyControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/faculty")
-                        .contentType(facultyObj.toString())
+                        .content(facultyObj.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -185,7 +185,7 @@ public class FacultyControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/faculty")
-                        .contentType(facultyObj.toString())
+                        .content(facultyObj.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

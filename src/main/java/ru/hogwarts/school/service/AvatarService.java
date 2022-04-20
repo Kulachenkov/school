@@ -1,7 +1,9 @@
 package ru.hogwarts.school.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.school.model.Avatar;
@@ -62,7 +64,7 @@ public class AvatarService {
     }
 
     public List<Avatar> getAllAvatars(Integer pageNumber, Integer sizeNumber) {
-        PageRequest pageRequest = PageRequest.of(pageNumber - 1, sizeNumber);
-        return avatarRepository.getAllAvatars();
+        Pageable page = PageRequest.of(pageNumber-1, sizeNumber);
+        return avatarRepository.findAll(page).getContent();
     }
 }
