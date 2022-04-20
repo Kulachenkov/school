@@ -7,6 +7,7 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
 import java.util.Collection;
+import java.util.List;
 
 
 @RestController
@@ -19,8 +20,24 @@ public class StudentController {
         this.studentService = studentService;
     }
 
+    @GetMapping("number-of-student")
+    public int getNumberOfStudents() {
+        return studentService.getNumberOfStudents();
+    }
+
+    @GetMapping("average-age-of-student")
+    public int getAverageAgeOfStudents() {
+        return studentService.getAverageAgeOfStudents();
+    }
+
+    @GetMapping("last-five-students")
+    public List<Student> getLastFiveStudents() {
+        return studentService.getLastFiveStudents();
+    }
+
     @GetMapping("{id}") // GET
     public ResponseEntity<Student> getStudent(@PathVariable long id) {
+
         Student student = studentService.findStudent(id);
         if (student == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -44,6 +61,10 @@ public class StudentController {
 
     @DeleteMapping("{id}") // DELETE
     public ResponseEntity<Void> deleteStudent(@PathVariable long id) {
+        Student student = studentService.findStudent(id);
+        if (student == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
         studentService.deleteStudent(id);
         return ResponseEntity.ok().build();
     }
