@@ -51,7 +51,7 @@ public class FacultyControllerTest {
         faculty.setColor(color);
         faculty.setName(name);
 
-        when(facultyRepository.findById(faculty.getId())).thenReturn(Optional.of(faculty));
+        when(facultyRepository.getById(faculty.getId())).thenReturn(faculty);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/faculty/{id}", id)
@@ -110,7 +110,7 @@ public class FacultyControllerTest {
         faculty.setColor(color);
         faculty.setName(name);
 
-        when(facultyRepository.getById(id)).thenReturn(faculty);
+        when(facultyRepository.getById(faculty.getId())).thenReturn(faculty);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/faculty/{id}", id)
@@ -141,14 +141,14 @@ public class FacultyControllerTest {
         faculty.setName(name);
 
         when(facultyRepository.save(any(Faculty.class))).thenReturn(faculty);
-        when(facultyRepository.findById(id)).thenReturn(Optional.of(faculty));
+        when(facultyRepository.findById(any(Long.class))).thenReturn(Optional.of(faculty));
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/faculty")
                         .content(facultyObj.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(id))
                 .andExpect(jsonPath("$.name").value(name))
                 .andExpect(jsonPath("$.color").value(color));
@@ -158,29 +158,28 @@ public class FacultyControllerTest {
     public void putFacultyTest() throws Exception {
 
         Long id = 1L;
-        String oldName = "testName";
-        String oldColor = "testColor";
+        String oldName = "Hufflepuf";
+        String oldColor = "Yellow";
 
-        String newName = "testName2";
-        String newColor = "testColor2";
+        String newName = "Ravenclaw";
+        String newColor = "Blue";
 
         JSONObject facultyObj = new JSONObject();
         facultyObj.put("id", id);
         facultyObj.put("name", newName);
         facultyObj.put("color", newColor);
 
-
         Faculty faculty = new Faculty();
         faculty.setId(id);
-        faculty.setColor(oldColor);
         faculty.setName(oldName);
+        faculty.setColor(oldColor);
 
         Faculty updatedFaculty = new Faculty();
-        faculty.setId(id);
-        faculty.setColor(newColor);
-        faculty.setName(newName);
+        updatedFaculty.setId(id);
+        updatedFaculty.setName(newName);
+        updatedFaculty.setColor(newColor);
 
-        when(facultyRepository.findById(id)).thenReturn(Optional.of(faculty));
+        when(facultyRepository.findById(any(Long.class))).thenReturn(Optional.of(faculty));
         when(facultyRepository.save(any(Faculty.class))).thenReturn(updatedFaculty);
 
         mockMvc.perform(MockMvcRequestBuilders
