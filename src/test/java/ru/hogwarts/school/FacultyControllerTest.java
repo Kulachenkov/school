@@ -42,6 +42,8 @@ public class FacultyControllerTest {
     @Test
     public void getFacultyTest() throws Exception {
 
+
+
         Long id = 100L;
         String name = "testName";
         String color = "testColor";
@@ -121,6 +123,7 @@ public class FacultyControllerTest {
                 .andExpect(jsonPath("$.name").value(name))
                 .andExpect(jsonPath("$.color").value(color));
         verify(facultyRepository, atLeastOnce()).deleteById(id);
+
     }
 
     @Test
