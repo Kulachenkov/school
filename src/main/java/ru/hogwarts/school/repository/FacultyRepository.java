@@ -12,11 +12,6 @@ import java.util.Set;
 public interface FacultyRepository extends JpaRepository<Faculty, Long> {
     Set<Faculty> findFacultiesByNameIgnoreCaseOrColorIgnoreCase(String name, String color);
 
-    Collection<Faculty> findAllBy();
 
-    @Query(value = "select faculty.name from student, faculty where student.faculty_id = faculty.id and student.id=:id", nativeQuery = true)
-    String findFacultyNameIgnoreCase(long id);
-
-    Collection<Faculty> findFacultyByName(String facultyName);
 
 }
