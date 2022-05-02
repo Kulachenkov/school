@@ -75,4 +75,20 @@ public class StudentService {
         logger.info("The getLastFiveStudents is run");
         return studentRepository.getLastFiveStudents();
     }
+
+    public List<String> getStudentsByName() {
+        return studentRepository.findAll().stream()
+                .map(Student::getName)
+                .map(String::toUpperCase)
+                .filter(s -> s.startsWith("A"))
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    public Double getAverageAge() {
+        return studentRepository.findAll().stream()
+                .mapToInt(Student::getAge)
+                .average().getAsDouble();
+    }
+
 }

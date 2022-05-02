@@ -1,5 +1,7 @@
 package ru.hogwarts.school.model;
 
+
+
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
@@ -14,11 +16,9 @@ public class Avatar {
     private long fileSize;
     private String mediaType;
 
-
     private byte [] data;
     @OneToOne
     private Student student;
-    
 
     public long getId() {
         return id;

@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.repository.FacultyRepository;
 
+import java.util.Comparator;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -47,6 +49,12 @@ public class FacultyService {
     public Set<Faculty> findFacultiesByNameIgnoreCaseOrColorIgnoreCase(String name, String color) {
         logger.info("The findFacultiesByNameIgnoreCaseOrColorIgnoreCase method  is run");
         return facultyRepository.findFacultiesByNameIgnoreCaseOrColorIgnoreCase(name, color);
+    }
+
+    public Optional<String> getTheLongestNameOfTheFaculty() {
+        return facultyRepository.findAll().stream()
+                .map(Faculty::getName)
+                .max(Comparator.comparingInt(String::length));
     }
 
 

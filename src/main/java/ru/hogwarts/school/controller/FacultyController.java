@@ -1,13 +1,12 @@
 package ru.hogwarts.school.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.service.FacultyService;
 
-import java.util.Collection;
+import java.util.Optional;
 import java.util.Set;
 
 
@@ -16,7 +15,6 @@ import java.util.Set;
 public class FacultyController {
 
     private FacultyService facultyService;
-
 
     public FacultyController(FacultyService facultyService) {
         this.facultyService = facultyService;
@@ -55,13 +53,15 @@ public class FacultyController {
         }
     }
 
-
     @GetMapping // GET
     public Set<Faculty> getFacultyByColorOrName(@RequestParam(required = false) String color,
                                                 @RequestParam(required = false) String name) {
         return facultyService.findFacultiesByNameIgnoreCaseOrColorIgnoreCase(name, color);
     }
 
-
+    @GetMapping("/filterByFaculty")
+    public ResponseEntity<Optional<String>> getLongestName() {
+        return ResponseEntity.ok(facultyService.getTheLongestNameOfTheFaculty());
+    }
 
  }
