@@ -1,6 +1,5 @@
 package ru.hogwarts.school.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +14,11 @@ import java.util.List;
 @RequestMapping("student") // http://localhost:8080/student
 public class StudentController {
 
-    @Autowired
     private StudentService studentService;
 
-//    public StudentController(StudentService studentService) {
-//        this.studentService = studentService;
-//    }
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
+    }
 
     @GetMapping("number-of-student")
     public int getNumberOfStudents() {
@@ -86,6 +84,16 @@ public class StudentController {
             return ResponseEntity.ok(studentService.findStudentsByFaculty(facultyName));
         }
         return ResponseEntity.ok(studentService.getAllStudents());
+    }
+
+    @GetMapping("/filterByName")// GET
+    public ResponseEntity<List<String>> getNameFromStream() {
+        return ResponseEntity.ok(studentService.getStudentsByName());
+    }
+
+    @GetMapping("/filterByAge")// GET
+    public ResponseEntity<Double> getAgeFromStream() {
+        return ResponseEntity.ok(studentService.getAverageAge());
     }
 
 }
