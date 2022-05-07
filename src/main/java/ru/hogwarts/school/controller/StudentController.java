@@ -69,11 +69,11 @@ public class StudentController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping ("filter/")// GET
-    public ResponseEntity<Collection<Student>> getStudentsByAge(@RequestParam (required = false) Integer age,
-                                                                @RequestParam (required = false) Integer min,
-                                                                @RequestParam (required = false) Integer max,
-                                                                @RequestParam (required = false) String facultyName) {
+    @GetMapping("filter/")// GET
+    public ResponseEntity<Collection<Student>> getStudentsByAge(@RequestParam(required = false) Integer age,
+                                                                @RequestParam(required = false) Integer min,
+                                                                @RequestParam(required = false) Integer max,
+                                                                @RequestParam(required = false) String facultyName) {
         if (min != null && max != null && min <= max) {
             return ResponseEntity.ok(studentService.findStudentsByAgeBetween(min, max));
         }
@@ -96,4 +96,15 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getAverageAge());
     }
 
+    @GetMapping("/studentStreams")
+    public ResponseEntity<Void> getStudentsInStreams() {
+        studentService.getStudentsFromStreams();
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/studentStreamsSync")
+    public ResponseEntity<Void> getStudentsInStreamsSync() {
+        studentService.getStudentsFromStreamsSync();
+        return ResponseEntity.ok().build();
+    }
 }
