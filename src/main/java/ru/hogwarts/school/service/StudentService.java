@@ -91,4 +91,41 @@ public class StudentService {
                 .average().getAsDouble();
     }
 
+    public void getStudentsFromStreams() {
+        studentRepository.findAll().stream().parallel().limit(6).forEach(s -> {
+                System.out.println(s.toString());
+            });
+
+//        System.out.println(studentRepository.findAll().get(1).toString() + " is a student # 1");
+//        System.out.println(studentRepository.findAll().get(2).toString() + " is a student # 2");
+//
+//        new Thread(() -> {
+//            System.out.println(studentRepository.findAll().get(3).toString() + " is a student # 3");
+//            System.out.println(studentRepository.findAll().get(4).toString() + " is a student # 4");
+//        }).start();
+//
+//
+//        new Thread(() -> {
+//            System.out.println(studentRepository.findAll().get(5).toString() + " is a student # 5");
+//            System.out.println(studentRepository.findAll().get(6).toString() + " is a student # 6");
+//        }).start();
+    }
+
+    public synchronized void getStudentsFromStreamsSync() {
+        getStudent(1);
+        getStudent(2);
+        new Thread(() -> {
+            getStudent(3);
+            getStudent(4);
+        }).start();
+        new Thread(() -> {
+            getStudent(5);
+            getStudent(6);
+        }).start();
+    }
+
+    private synchronized void getStudent(int number) {
+        System.out.println(studentRepository.findAll().get(number).toString());
+    }
+
 }
